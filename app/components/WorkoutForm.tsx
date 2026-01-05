@@ -90,5 +90,3 @@ export default function WorkoutForm({ onSubmitWorkout }: WorkoutFormProps) {
     </div>
   );
 }
-
-    // For now, we'll treat the whole summary as one "exercise
