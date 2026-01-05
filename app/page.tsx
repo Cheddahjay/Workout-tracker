@@ -31,10 +31,10 @@ export default function Home() {
     const newWorkout: WorkoutEntry = {
       id: Date.now(), // Use current timestamp as unique ID
       timestamp: new Date().toISOString(), // Save current date/time
-      exercises: exercises, // Data from form
-      sessionNotes: sessionNotes, // Data from form
-      isGoalAligned: isGoalAligned, // Data from form
-    };
+      exercises, // Data from form
+      sessionNotes, // Data from form
+      isGoalAligned, // Data from form
+    };r
 
     // Add new workout to the existing array
     // [...workouts, newWorkout] creates a new array with all old workouts + the new one
