@@ -56,12 +56,12 @@ export default function WorkoutForm({ onSubmitWorkout }: WorkoutFormProps) {
           <textarea
             value={workoutSummary}
             onChange={(e) => setWorkoutSummary(e.target.value)}
-            placeholder="Squats 5x5 @ 225lbs&#10;Bench 3x8 @ 185lbs&#10;Deadlift 1x5 @ 405lbs - new PR!"
-            className="w-full p-3 border border-gray-300 rounded text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder={"e.g: Squats, bench, feeling strong\n2 mile run in 20 minutes\nYoga + stretching, recovery day"}
+            className="w-full p-3 border border-gray-300 rounded text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparen placeholder:text-gray-400 placeholder:italic"
             rows={6}
           />
           <p className="text-xs text-gray-500 mt-1">
-            Type your workout naturally - we'll organize it for you
+            Type your workout naturally - we'll organize it for you 
           </p>
         </div>
 
@@ -74,7 +74,7 @@ export default function WorkoutForm({ onSubmitWorkout }: WorkoutFormProps) {
               onChange={(e) => setIsGoalAligned(e.target.checked)}
               className="mr-3 w-6 h-6"
             />
-            <span className="text-sm text-gray-700">This workout aligned with my goal</span>
+            <span className="text-sm text-gray-700">Todays workout aligned with my goal</span>
           </label>
         </div>
 

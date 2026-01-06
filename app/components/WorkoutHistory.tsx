@@ -16,7 +16,7 @@ export default function WorkoutHistory({ workouts, onDelete }: WorkoutHistoryPro
         <div className="text-center py-12">
           <div className="text-6xl mb-4">💪</div>
           <p className="text-gray-600 font-medium mb-2">No workouts yet</p>
-          <p className="text-sm text-gray-500">Save you first work out, begin tracking your progress</p>
+          <p className="text-sm text-gray-500">Saver you first work out, begin tracking your progress</p>
         </div>
       ) : (
         <div className="space-y-4">

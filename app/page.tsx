@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import WorkoutForm from "./components/WorkoutForm";
 import { Exercise } from "./components/WorkoutForm";
 import WorkoutHistory from "./components/WorkoutHistory";
+import { json } from "stream/consumers";
 
 // Define the complete structure of a saved workout entry
 export interface WorkoutEntry {
@@ -16,8 +18,26 @@ export interface WorkoutEntry {
 
 export default function Home() {
   // State: Array to hold all workout entries
-  const [workouts, setWorkouts] = useState<WorkoutEntry[]>([]);
-  const [goal, setGoal] = useState<string>('');
+  const [workouts, setWorkouts] = useState<WorkoutEntry[]>(() => {
+    if (typeof window !== 'undefined'){
+      const saved = localStorage.getItem('workouts')
+      return saved? JSON.parse(saved) : [];
+    }
+    return [];
+  }) 
+
+  const [goal, setGoal] = useState<string>(() => {
+    if(typeof window !== 'undefined'){
+      return localStorage.getItem('goal') || '';
+    }
+    return '';
+  })
+
+  useEffect(() => {
+    localStorage.setItem('workouts', JSON.stringify(workouts));
+    localStorage.setItem('goal', JSON.stringify(goal));
+  }, [workouts, goal]);
+  
 
   // Function to add a new workout to the list
   const handleAddWorkout = (
@@ -35,7 +55,7 @@ export default function Home() {
     };
 
     // Add new workout to the existing array
-    setWorkouts([...workouts, newWorkout]);
+    setWorkouts([newWorkout, ...workouts]);
   };
 
   const handleDeleteWorkout = (id:number) => {
@@ -45,7 +65,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">Northern Star</h1>
+      <h1 className="text-4xl font-bold mb-8 text-gray-800">⭐ Northern Star</h1>
       
       {/* Goal Input */}
       <div className="bg-blue-50 border-2 border-blue-200 p-4 rounded-lg mb-6 max-w-2xl">
@@ -56,7 +76,7 @@ export default function Home() {
           type="text"
           value={goal}
           onChange={(e) => setGoal(e.target.value)}
-          placeholder="e.g., I want to run a marathon, Get stronger, Lose 20 lbs"
+          placeholder="e.g., I will lose 20 lbs"
           className="w-full p-3 border border-blue-300 rounded text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
         {goal && (
