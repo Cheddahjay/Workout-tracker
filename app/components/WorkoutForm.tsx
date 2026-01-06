@@ -41,7 +41,7 @@ export default function WorkoutForm({ onSubmitWorkout }: WorkoutFormProps) {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow">
-      <h2 className="text-xl font-bold mb-4 text-gray-900">Log Workout</h2>
+      <h2 className="text-xl font-bold mb-4 text-gray-900">Track your progess</h2>
 
       <form onSubmit={(e) => {
         e.preventDefault();
@@ -51,7 +51,7 @@ export default function WorkoutForm({ onSubmitWorkout }: WorkoutFormProps) {
         {/* Single Workout Summary Box */}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2 text-gray-700">
-            What did you do today?
+            Drop the key details of todays workout below:
           </label>
           <textarea
             value={workoutSummary}
@@ -61,7 +61,7 @@ export default function WorkoutForm({ onSubmitWorkout }: WorkoutFormProps) {
             rows={6}
           />
           <p className="text-xs text-gray-500 mt-1">
-            Just type your workout naturally - we'll organize it for you
+            Type your workout naturally - we'll organize it for you
           </p>
         </div>
 
@@ -72,7 +72,7 @@ export default function WorkoutForm({ onSubmitWorkout }: WorkoutFormProps) {
               type="checkbox"
               checked={isGoalAligned}
               onChange={(e) => setIsGoalAligned(e.target.checked)}
-              className="mr-2 w-4 h-4"
+              className="mr-3 w-6 h-6"
             />
             <span className="text-sm text-gray-700">This workout aligned with my goal</span>
           </label>
@@ -83,7 +83,7 @@ export default function WorkoutForm({ onSubmitWorkout }: WorkoutFormProps) {
           type="submit"
           className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition-colors"
         >
-          Log Workout
+          Save it
         </button>
         
       </form>

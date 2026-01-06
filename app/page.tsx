@@ -38,20 +38,25 @@ export default function Home() {
     setWorkouts([...workouts, newWorkout]);
   };
 
+  const handleDeleteWorkout = (id:number) => {
+    setWorkouts(workouts.filter(workout => workout.id !== id))
+
+  }
+
   return (
     <main className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">Workout Tracker</h1>
+      <h1 className="text-4xl font-bold mb-8 text-gray-800">Northern Star</h1>
       
       {/* Goal Input */}
       <div className="bg-blue-50 border-2 border-blue-200 p-4 rounded-lg mb-6 max-w-2xl">
         <label className="block text-sm font-semibold text-gray-700 mb-2">
-          What's your current goal?
+          What are you working towards? (Your 'Northern Star')
         </label>
         <input
           type="text"
           value={goal}
           onChange={(e) => setGoal(e.target.value)}
-          placeholder="e.g., Run a marathon, Get stronger, Lose 20 lbs"
+          placeholder="e.g., I want to run a marathon, Get stronger, Lose 20 lbs"
           className="w-full p-3 border border-blue-300 rounded text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
         {goal && (
@@ -68,7 +73,10 @@ export default function Home() {
         </div>
 
         {/* Right Side - History */}
-        <WorkoutHistory workouts={workouts} />
+        <WorkoutHistory
+         workouts={workouts} 
+         onDelete={handleDeleteWorkout}
+         />
       </div>
     </main>
   );
