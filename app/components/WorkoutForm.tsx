@@ -27,7 +27,7 @@ export default function WorkoutForm({ onSubmitWorkout }: WorkoutFormProps) {
       alert('Please enter your workout details');
       return;
     }
-        const exercise: Exercise = {
+      const exercise: Exercise = {
       name: "Workout",
       notes: workoutSummary
     };
@@ -40,7 +40,7 @@ export default function WorkoutForm({ onSubmitWorkout }: WorkoutFormProps) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
+    <div className="bg-gray-100 p-6 rounded-lg shadow">
       <h2 className="text-xl font-bold mb-4 text-gray-900">Track your progess</h2>
 
       <form onSubmit={(e) => {
@@ -81,7 +81,7 @@ export default function WorkoutForm({ onSubmitWorkout }: WorkoutFormProps) {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition-colors"
+          className="w-full bg-blue-900 text-white font-semibold py-3 rounded hover:bg-blue-700 transition-colors"
         >
           Save it
         </button>

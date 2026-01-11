@@ -9,14 +9,14 @@ export interface WorkoutHistoryProps {
 
 export default function WorkoutHistory({ workouts, onDelete }: WorkoutHistoryProps) {
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
+    <div className="bg-gray-100 p-6 rounded-lg shadow">
       <h2 className="text-2xl font-bold mb-4 text-gray-900">Completed Workouts</h2>
 
       {workouts.length === 0 ? (
         <div className="text-center py-12">
           <div className="text-6xl mb-4">💪</div>
           <p className="text-gray-600 font-medium mb-2">No workouts yet</p>
-          <p className="text-sm text-gray-500">Saver you first work out, begin tracking your progress</p>
+          <p className="text-sm text-gray-500">Save you first work out, begin tracking your progress</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -41,11 +41,11 @@ export default function WorkoutHistory({ workouts, onDelete }: WorkoutHistoryPro
                 {/* Right: Badge and Delete Button grouped together */}
                 <div className="flex items-center gap-2">
                   <span className={`text-xs font-bold px-2 py-1 rounded ${
-                    workout.isGoalAligned
+                    workout.is_goal_aligned
                       ? 'bg-green-100 text-green-700'
                       : 'bg-red-100 text-red-700'
                   }`}>
-                    {workout.isGoalAligned ? '✓ Goal' : '✗ Off Track'}
+                    {workout.is_goal_aligned ? '✓ Goal' : '✗ Off Track'}
                   </span>
                   
                   <button
@@ -60,7 +60,7 @@ export default function WorkoutHistory({ workouts, onDelete }: WorkoutHistoryPro
 
               {/* Workout content */}
               <p className="text-gray-900 whitespace-pre-line">
-                {workout.exercises[0]?.notes || 'No details'}
+               {workout.exercise_notes || 'No details'}
               </p>
             </div>
           ))}

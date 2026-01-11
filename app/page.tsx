@@ -1,71 +1,108 @@
 "use client";
 
-
 import { useState, useEffect } from "react";
 import WorkoutForm from "./components/WorkoutForm";
 import { Exercise } from "./components/WorkoutForm";
 import WorkoutHistory from "./components/WorkoutHistory";
-import { json } from "stream/consumers";
+import { supabase } from "@/lib/supabase";
 
-// Define the complete structure of a saved workout entry
+// Updated interface to match database structure
 export interface WorkoutEntry {
   id: number;
+  user_id?: string;
+  exercise_notes: string;
+  is_goal_aligned: boolean;
   timestamp: string;
-  exercises: Exercise[];
-  sessionNotes: string;
-  isGoalAligned: boolean;
+  created_at?: string;
 }
 
 export default function Home() {
-  // State: Array to hold all workout entries
-  const [workouts, setWorkouts] = useState<WorkoutEntry[]>(() => {
-    if (typeof window !== 'undefined'){
-      const saved = localStorage.getItem('workouts')
-      return saved? JSON.parse(saved) : [];
+useEffect(() => {
+  // Check if user is logged in
+  const checkUser = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      // Not logged in - redirect to login
+      window.location.href = '/login';
     }
-    return [];
-  }) 
-
-  const [goal, setGoal] = useState<string>(() => {
-    if(typeof window !== 'undefined'){
-      return localStorage.getItem('goal') || '';
-    }
-    return '';
-  })
-
-  useEffect(() => {
-    localStorage.setItem('workouts', JSON.stringify(workouts));
-    localStorage.setItem('goal', JSON.stringify(goal));
-  }, [workouts, goal]);
-  
-
-  // Function to add a new workout to the list
-  const handleAddWorkout = (
-    exercises: Exercise[],
-    sessionNotes: string,
-    isGoalAligned: boolean
-  ) => {
-    // Create a new workout object with auto-generated id and timestamp
-    const newWorkout: WorkoutEntry = {
-      id: Date.now(),
-      timestamp: new Date().toISOString(),
-      exercises,
-      sessionNotes,
-      isGoalAligned,
-    };
-
-    // Add new workout to the existing array
-    setWorkouts([newWorkout, ...workouts]);
   };
+  
+  checkUser();
+}, []);
 
-  const handleDeleteWorkout = (id:number) => {
-    setWorkouts(workouts.filter(workout => workout.id !== id))
+  // State
+  const [workouts, setWorkouts] = useState<WorkoutEntry[]>([]);
+  const [goal, setGoal] = useState<string>('');
 
+  // Load workouts from Supabase when component mounts
+  useEffect(() => {
+    loadWorkouts();
+  }, []);
+
+  // Fetch workouts from database
+  async function loadWorkouts() {
+    const { data, error } = await supabase
+      .from('workouts')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error loading workouts:', error);
+      return;
+    }
+
+    setWorkouts(data || []);
   }
 
+const handleAddWorkout = async (
+  exercises: Exercise[],
+  sessionNotes: string,
+  isGoalAligned: boolean
+) => {
+  console.log('Adding workout with:', { exercises, sessionNotes, isGoalAligned });
+
+  const { data, error } = await supabase
+    .from('workouts')
+    .insert({
+      exercise_notes: exercises[0]?.notes || '',
+      is_goal_aligned: isGoalAligned,
+    })
+    .select()
+    .single();
+
+  console.log('Supabase response:', { data, error });
+
+  if (error) {
+    console.error('Error adding workout:', error);
+    return;
+  }
+
+  if (data) {
+    console.log('Adding to local state:', data);
+    setWorkouts([data, ...workouts]);
+  }
+};
+
+  // Delete workout from database
+  const handleDeleteWorkout = async (id: number) => {
+    const { error } = await supabase
+      .from('workouts')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting workout:', error);
+      return;
+    }
+
+    // Update local state
+    setWorkouts(workouts.filter(workout => workout.id !== id));
+  };
+
   return (
-    <main className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">⭐ Northern Star</h1>
+    <main className="min-h-screen bg-gray-900 p-8">
+      <h1 className="text-4xl font-bold mb-8 text-gray-100">⭐ Northern Star</h1>
       
       {/* Goal Input */}
       <div className="bg-blue-50 border-2 border-blue-200 p-4 rounded-lg mb-6 max-w-2xl">
