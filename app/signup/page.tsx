@@ -2,6 +2,7 @@
 
 import { supabase } from "@/lib/supabase";
 import { useState } from "react";
+import Link from "next/link"
 
 export default function Signup() {
 
@@ -58,6 +59,13 @@ return (
         >
           Sign Up
         </button>
+
+        <p className="text-center text-sm text-gray-600 mt4">
+            Already have an account? {""}
+            <Link href="/login" className="text-blue-600 hover:underline">
+                Login
+            </Link>
+        </p>
       </div>
     </div>
   </div>

@@ -100,9 +100,32 @@ const handleAddWorkout = async (
     setWorkouts(workouts.filter(workout => workout.id !== id));
   };
 
+  const handleLogout = async ()=> {
+    const {error} = await supabase.auth.signOut()
+    
+    if (error){
+      alert("Log out failed" + error.message)
+    }
+    else{
+      window.location.href = '/login';
+    }
+
+  }
+
   return (
     <main className="min-h-screen bg-gray-900 p-8">
-      <h1 className="text-4xl font-bold mb-8 text-gray-100">⭐ Northern Star</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-4xl font-bold mb-8 text-gray-100">⭐ Northern Star</h1>
+        <button 
+        onClick={handleLogout}
+          style={{ backgroundColor: '#dc2626' }}
+          className="text-white p-3 rounded"
+        >
+          Log out
+        </button>
+      </div>
+      
+
       
       {/* Goal Input */}
       <div className="bg-blue-50 border-2 border-blue-200 p-4 rounded-lg mb-6 max-w-2xl">
